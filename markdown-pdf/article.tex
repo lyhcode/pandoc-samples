@@ -1,0 +1,896 @@
+\textbf{NOTE:} This is Traditional Chinese Edition Document of Markdown
+Syntax. If you are seeking for English Edition Document. Please refer to
+\href{http://daringfireball.net/projects/markdown/syntax}{Markdown:
+Syntax}.
+
+\section{Markdown: Syntax}
+
+\begin{itemize}
+\item
+  \href{\#overview}{概述}
+  \begin{itemize}
+  \item
+    \href{\#philosophy}{哲學}
+  \item
+    \href{\#html}{行內 HTML}
+  \item
+    \href{\#autoescape}{特殊字元自動轉換}
+  \end{itemize}
+\item
+  \href{\#block}{區塊元素}
+  \begin{itemize}
+  \item
+    \href{\#p}{段落和換行}
+  \item
+    \href{\#header}{標題}
+  \item
+    \href{\#blockquote}{區塊引言}
+  \item
+    \href{\#list}{清單}
+  \item
+    \href{\#precode}{程式碼區塊}
+  \item
+    \href{\#hr}{分隔線}
+  \end{itemize}
+\item
+  \href{\#span}{區段元素}
+  \begin{itemize}
+  \item
+    \href{\#link}{連結}
+  \item
+    \href{\#em}{強調}
+  \item
+    \href{\#code}{程式碼}
+  \item
+    \href{\#img}{圖片}
+  \end{itemize}
+\item
+  \href{\#misc}{其它}
+  \begin{itemize}
+  \item
+    \href{\#backslash}{跳脫字元}
+  \item
+    \href{\#autolink}{自動連結}
+  \end{itemize}
+\item
+  \href{\#acknowledgement}{感謝}
+\end{itemize}
+\textbf{注意：}這份文件是用 Markdown
+寫的，你可以\href{https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md}{看看它的原始檔}
+。
+
+\begin{center}\rule{3in}{0.4pt}\end{center}
+
+概述
+哲學
+Markdown 的目標是實現「易讀易寫」。
+
+不過最需要強調的便是它的可讀性。一份使用 Markdown
+格式撰寫的文件應該可以直接以純文字發佈，並且看起來不會像是由許多標籤或是格式指令所構成。Markdown
+語法受到一些既有 text-to-HTML 格式的影響，包括
+\href{http://docutils.sourceforge.net/mirror/setext.html}{Setext}、\href{http://www.aaronsw.com/2002/atx/}{atx}、\href{http://textism.com/tools/textile/}{Textile}、\href{http://docutils.sourceforge.net/rst.html}{reStructuredText}、\href{http://www.triptico.com/software/grutatxt.html}{Grutatext}
+和
+\href{http://ettext.taint.org/doc/}{EtText}，然而最大靈感來源其實是純文字的電子郵件格式。
+
+因此 Markdown
+的語法全由標點符號所組成，並經過嚴謹慎選，是為了讓它們看起來就像所要表達的意思。像是在文字兩旁加上星號，看起來就像*強調*。Markdown
+的清單看起來，嗯，就是清單。假如你有使用過電子郵件，區塊引言看起來就真的像是引用一段文字。
+
+行內 HTML
+Markdown 的語法有個主要的目的：用來作為一種網路內容的\emph{寫作}用語言。
+
+Markdown 不是要來取代 HTML，甚至也沒有要和它相似，它的語法種類不多，只和
+HTML 的一部分有關係，重點\emph{不是}要創造一種更容易寫作 HTML
+文件的語法，我認為 HTML 已經很容易寫了，Markdown
+的重點在於，它能讓文件更容易閱讀、編寫。HTML
+是一種\emph{發佈}的格式，Markdown 是一種\emph{編寫}的格式，因此，Markdown
+的格式語法只涵蓋純文字可以涵蓋的範圍。
+
+不在 Markdown 涵蓋範圍之外的標籤，都可以直接在文件裡面用 HTML
+撰寫。不需要額外標註這是 HTML 或是 Markdown；只要直接加標籤就可以了。
+
+只有區塊元素──比如
+\texttt{\textless{}div\textgreater{}}、\texttt{\textless{}table\textgreater{}}、\texttt{\textless{}pre\textgreater{}}、\texttt{\textless{}p\textgreater{}}
+等標籤，必需在前後加上空白，以利與內容區隔。而且這些（元素）的開始與結尾標籤，不可以用
+tab 或是空白來縮排。Markdown
+的產生器有智慧型判斷，可以避免在區塊標籤前後加上沒有必要的
+\texttt{\textless{}p\textgreater{}} 標籤。
+
+舉例來說，在 Markdown 文件裡加上一段 HTML 表格：
+
+\begin{verbatim}
+This is a regular paragraph.
+
+<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>
+
+This is another regular paragraph.
+\end{verbatim}
+請注意，Markdown 語法在 HTML 區塊標籤中將不會被進行處理。例如，你無法在
+HTML 區塊內使用 Markdown 形式的\texttt{*強調*}。
+
+HTML 的區段標籤如
+\texttt{\textless{}span\textgreater{}}、\texttt{\textless{}cite\textgreater{}}、\texttt{\textless{}del\textgreater{}}
+則不受限制，可以在 Markdown
+的段落、清單或是標題裡任意使用。依照個人習慣，甚至可以不用Markdown
+格式，而採用 HTML 標籤來格式化。舉例說明：如果比較喜歡 HTML 的
+\texttt{\textless{}a\textgreater{}} 或
+\texttt{\textless{}img\textgreater{}} 標籤，可以直接使用這些標籤，而不用
+Markdown 提供的連結或是影像標示語法。
+
+HTML 區段標籤和區塊標籤不同，在區段標籤的範圍內， Markdown
+的語法是有效的。
+
+特殊字元自動轉換
+在 HTML 文件中，有兩個字元需要特殊處理： \texttt{\textless{}} 和
+\texttt{\&} 。 \texttt{\textless{}} 符號用於起始標籤，\texttt{\&}
+符號則用於標記 HTML
+實體，如果你只是想要使用這些符號，你必須要使用實體的形式，像是
+\texttt{\&lt;} 和 \texttt{\&amp;}。
+
+\texttt{\&} 符號其實很讓寫作網路文件的人感到困擾，如果你要打「AT\&T」
+，你必須要寫成「\texttt{AT\&amp;T}」 ，還得轉換網址內的 \texttt{\&}
+符號，如果你要連結到：
+
+\begin{verbatim}
+http://images.google.com/images?num=30&q=larry+bird
+\end{verbatim}
+你必須要把網址轉成：
+
+\begin{verbatim}
+http://images.google.com/images?num=30&amp;q=larry+bird
+\end{verbatim}
+才能放到連結標籤的 \texttt{href}
+屬性裡。不用說也知道這很容易忘記，這也可能是 HTML
+標準檢查所檢查到的錯誤中，數量最多的。
+
+Markdown
+允許你直接使用這些符號，但是你要小心跳脫字元的使用，如果你是在HTML
+實體中使用 \texttt{\&}
+符號的話，它不會被轉換，而在其它情形下，它則會被轉換成
+\texttt{\&amp;}。所以你如果要在文件中插入一個著作權的符號，你可以這樣寫：
+
+\begin{verbatim}
+&copy;
+\end{verbatim}
+Markdown 將不會對這段文字做修改，但是如果你這樣寫：
+
+\begin{verbatim}
+AT&T
+\end{verbatim}
+Markdown 就會將它轉為：
+
+\begin{verbatim}
+AT&amp;T
+\end{verbatim}
+類似的狀況也會發生在 \texttt{\textless{}} 符號上，因為 Markdown 支援
+\href{\#html}{行內 HTML} ，如果你是使用 \texttt{\textless{}} 符號作為
+HTML 標籤使用，那 Markdown 也不會對它做任何轉換，但是如果你是寫：
+
+\begin{verbatim}
+4 < 5
+\end{verbatim}
+Markdown 將會把它轉換為：
+
+\begin{verbatim}
+4 &lt; 5
+\end{verbatim}
+不過需要注意的是，code 範圍內，不論是行內還是區塊， \texttt{\textless{}} 和
+\texttt{\&} 兩個符號都\emph{一定}會被轉換成 HTML
+實體，這項特性讓你可以很容易地用 Markdown 寫 HTML code （和 HTML 相對而言，
+HTML 語法中，你要把所有的 \texttt{\textless{}} 和 \texttt{\&} 都轉換為
+HTML 實體，才能在 HTML 文件裡面寫出 HTML code。）
+
+\begin{center}\rule{3in}{0.4pt}\end{center}
+
+區塊元素
+段落和換行
+一個段落是由一個以上相連接的行句組成，而一個以上的空行則會切分出不同的段落（空行的定義是顯示上看起來像是空行，便會被視為空行。比方說，若某一行只包含空白和
+tab，則該行也會被視為空行），一般的段落不需要用空白或斷行縮排。
+
+「一個以上相連接的行句組成」這句話其實暗示了 Markdown
+允許段落內的強迫斷行，這個特性和其他大部分的 text-to-HTML 格式不一樣（包括
+MovableType 的「Convert Line Breaks」選項），其它的格式會把每個斷行都轉成
+\texttt{\textless{}br /\textgreater{}} 標籤。
+
+如果你\emph{真的}想要插入 \texttt{\textless{}br /\textgreater{}}
+標籤的話，在行尾加上兩個以上的空白，然後按 enter。
+
+是的，這確實需要花比較多功夫來插入 \texttt{\textless{}br /\textgreater{}}
+，但是「每個換行都轉換為 \texttt{\textless{}br /\textgreater{}}」的方法在
+Markdown 中並不適合， Markdown 中 email 式的
+\href{\#blockquote}{區塊引言} 和多段落的 \href{\#list}{清單}
+在使用換行來排版的時候，不但更好用，還更好閱讀。
+
+標題
+Markdown
+支援兩種標題的語法，\href{http://docutils.sourceforge.net/mirror/setext.html}{Setext}
+和 \href{http://www.aaronsw.com/2002/atx/}{atx} 形式。
+
+Setext 形式是用底線的形式，利用 \texttt{=} （最高階標題）和 \texttt{-}
+（第二階標題），例如：
+
+\begin{verbatim}
+This is an H1
+=============
+
+This is an H2
+-------------
+\end{verbatim}
+任何數量的 \texttt{=} 和 \texttt{-} 都可以有效果。
+
+Atx 形式則是在行首插入 1 到 6 個 \texttt{\#} ，對應到標題 1 到 6 階，例如：
+
+\begin{verbatim}
+# This is an H1
+
+## This is an H2
+
+###### This is an H6
+\end{verbatim}
+你可以選擇性地「關閉」atx
+樣式的標題，這純粹只是美觀用的，若是覺得這樣看起來比較舒適，你就可以在行尾加上
+\texttt{\#}，而行尾的 \texttt{\#}
+數量也不用和開頭一樣（行首的井字數量決定標題的階數）：
+
+\begin{verbatim}
+# This is an H1 #
+
+## This is an H2 ##
+
+### This is an H3 ######
+\end{verbatim}
+Blockquotes
+Markdown 使用 email 形式的區塊引言，如果你很熟悉如何在 email
+信件中引言，你就知道怎麼在 Markdown
+文件中建立一個區塊引言，那會看起來像是你強迫斷行，然後在每行的最前面加上
+\texttt{\textgreater{}} ：
+
+\begin{verbatim}
+> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+> consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+> Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+> 
+> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
+> id sem consectetuer libero luctus adipiscing.
+\end{verbatim}
+Markdown 也允許你只在整個段落的第一行最前面加上 \texttt{\textgreater{}}
+：
+
+\begin{verbatim}
+> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+
+> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
+id sem consectetuer libero luctus adipiscing.
+\end{verbatim}
+區塊引言可以有階層（例如：引言內的引言），只要根據層數加上不同數量的
+\texttt{\textgreater{}} ：
+
+\begin{verbatim}
+> This is the first level of quoting.
+>
+> > This is nested blockquote.
+>
+> Back to the first level.
+\end{verbatim}
+引言的區塊內也可以使用其他的 Markdown 語法，包括標題、清單、程式碼區塊等：
+
+\begin{verbatim}
+> ## This is a header.
+> 
+> 1.   This is the first list item.
+> 2.   This is the second list item.
+> 
+> Here's some example code:
+> 
+>     return shell_exec("echo $input | $markdown_script");
+\end{verbatim}
+任何標準的文字編輯器都能簡單地建立 email 樣式的引言，例如 BBEdit
+，你可以選取文字後然後從選單中選擇\emph{增加引言階層}。
+
+清單
+Markdown 支援有序清單和無序清單。
+
+無序清單使用星號、加號或是減號作為清單標記：
+
+\begin{verbatim}
+*   Red
+*   Green
+*   Blue
+\end{verbatim}
+等同於：
+
+\begin{verbatim}
++   Red
++   Green
++   Blue
+\end{verbatim}
+也等同於：
+
+\begin{verbatim}
+-   Red
+-   Green
+-   Blue
+\end{verbatim}
+有序清單則使用數字接著一個英文句點：
+
+\begin{verbatim}
+1.  Bird
+2.  McHale
+3.  Parish
+\end{verbatim}
+很重要的一點是，你在清單標記上使用的數字並不會影響輸出的 HTML
+結果，上面的清單所產生的 HTML 標記為：
+
+\begin{verbatim}
+<ol>
+<li>Bird</li>
+<li>McHale</li>
+<li>Parish</li>
+</ol>
+\end{verbatim}
+如果你的清單標記寫成：
+
+\begin{verbatim}
+1.  Bird
+1.  McHale
+1.  Parish
+\end{verbatim}
+或甚至是：
+
+\begin{verbatim}
+3. Bird
+1. McHale
+8. Parish
+\end{verbatim}
+你都會得到完全相同的 HTML 輸出。重點在於，你可以讓 Markdown
+文件的清單數字和輸出的結果相同，或是你懶一點，你可以完全不用在意數字的正確性。
+
+如果你使用懶惰的寫法，建議第一個項目最好還是從 1. 開始，因為 Markdown
+未來可能會支援有序清單的 start 屬性。
+
+清單項目標記通常是放在最左邊，但是其實也可以縮排，最多三個空白，項目標記後面則一定要接著至少一個空白或
+tab。
+
+要讓清單看起來更漂亮，你可以把內容用固定的縮排整理好：
+
+\begin{verbatim}
+*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+    Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
+    viverra nec, fringilla in, laoreet vitae, risus.
+*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
+    Suspendisse id sem consectetuer libero luctus adipiscing.
+\end{verbatim}
+但是如果你很懶，那也不一定需要：
+
+\begin{verbatim}
+*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
+viverra nec, fringilla in, laoreet vitae, risus.
+*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
+Suspendisse id sem consectetuer libero luctus adipiscing.
+\end{verbatim}
+如果清單項目間用空行分開， Markdown 會把項目的內容在輸出時用
+\texttt{\textless{}p\textgreater{}} 標籤包起來，舉例來說：
+
+\begin{verbatim}
+*   Bird
+*   Magic
+\end{verbatim}
+會被轉換為：
+
+\begin{verbatim}
+<ul>
+<li>Bird</li>
+<li>Magic</li>
+</ul>
+\end{verbatim}
+但是這個：
+
+\begin{verbatim}
+*   Bird
+
+*   Magic
+\end{verbatim}
+會被轉換為：
+
+\begin{verbatim}
+<ul>
+<li><p>Bird</p></li>
+<li><p>Magic</p></li>
+</ul>
+\end{verbatim}
+清單項目可以包含多個段落，每個項目下的段落都必須縮排 4 個空白或是一個 tab
+：
+
+\begin{verbatim}
+1.  This is a list item with two paragraphs. Lorem ipsum dolor
+    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
+    mi posuere lectus.
+
+    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
+    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
+    sit amet velit.
+
+2.  Suspendisse id sem consectetuer libero luctus adipiscing.
+\end{verbatim}
+如果你每行都有縮排，看起來會看好很多，當然，再次地，如果你很懶惰，Markdown
+也允許：
+
+\begin{verbatim}
+*   This is a list item with two paragraphs.
+
+    This is the second paragraph in the list item. You're
+only required to indent the first line. Lorem ipsum dolor
+sit amet, consectetuer adipiscing elit.
+
+*   Another item in the same list.
+\end{verbatim}
+如果要在清單項目內放進引言，那 \texttt{\textgreater{}} 就需要縮排：
+
+\begin{verbatim}
+*   A list item with a blockquote:
+
+    > This is a blockquote
+    > inside a list item.
+\end{verbatim}
+如果要放程式碼區塊的話，該區塊就需要縮排\emph{兩次}，也就是 8
+個空白或是兩個 tab：
+
+\begin{verbatim}
+*   A list item with a code block:
+
+        <code goes here>
+\end{verbatim}
+當然，項目清單很可能會不小心產生，像是下面這樣的寫法：
+
+\begin{verbatim}
+1986. What a great season.
+\end{verbatim}
+換句話說，也就是在行首出現\emph{數字-句點-空白}，要避免這樣的狀況，你可以在句點前面加上反斜線。
+
+\begin{verbatim}
+1986\. What a great season.
+\end{verbatim}
+程式碼區塊
+和程式相關的寫作或是標籤語言原始碼通常會有已經排版好的程式碼區塊，通常這些區塊我們並不希望它以一般段落文件的方式去排版，而是照原來的樣子顯示，Markdown
+會用 \texttt{\textless{}pre\textgreater{}} 和
+\texttt{\textless{}code\textgreater{}} 標籤來把程式碼區塊包起來。
+
+要在 Markdown 中建立程式碼區塊很簡單，只要簡單地縮排 4 個空白或是 1 個
+tab 就可以，例如，下面的輸入：
+
+\begin{verbatim}
+This is a normal paragraph:
+
+    This is a code block.
+\end{verbatim}
+Markdown 會轉換成：
+
+\begin{verbatim}
+<p>This is a normal paragraph:</p>
+
+<pre><code>This is a code block.
+</code></pre>
+\end{verbatim}
+這個每行一階的縮排（4 個空白或是 1 個 tab），都會被移除，例如：
+
+\begin{verbatim}
+Here is an example of AppleScript:
+
+    tell application "Foo"
+        beep
+    end tell
+\end{verbatim}
+會被轉換為：
+
+\begin{verbatim}
+<p>Here is an example of AppleScript:</p>
+
+<pre><code>tell application "Foo"
+    beep
+end tell
+</code></pre>
+\end{verbatim}
+一個程式碼區塊會一直持續到沒有縮排的那一行（或是文件結尾）。
+
+在程式碼區塊裡面， \texttt{\&} 、 \texttt{\textless{}} 和
+\texttt{\textgreater{}} 會自動轉成 HTML 實體，這樣的方式讓你非常容易使用
+Markdown 插入範例用的 HTML
+原始碼，只需要複製貼上，再加上縮排就可以了，剩下的 Markdown
+都會幫你處理，例如：
+
+\begin{verbatim}
+    <div class="footer">
+        &copy; 2004 Foo Corporation
+    </div>
+\end{verbatim}
+會被轉換為：
+
+\begin{verbatim}
+<pre><code>&lt;div class="footer"&gt;
+    &amp;copy; 2004 Foo Corporation
+&lt;/div&gt;
+</code></pre>
+\end{verbatim}
+程式碼區塊中，一般的 Markdown
+語法不會被轉換，像是星號便只是星號，這表示你可以很容易地以 Markdown
+語法撰寫 Markdown 語法相關的文件。
+
+分隔線
+你可以在一行中用三個或以上的星號、減號、底線來建立一個分隔線，行內不能有其他東西。你也可以在星號中間插入空白。下面每種寫法都可以建立分隔線：
+
+\begin{verbatim}
+* * *
+
+***
+
+*****
+
+- - -
+
+---------------------------------------
+\end{verbatim}
+\begin{center}\rule{3in}{0.4pt}\end{center}
+
+區段元素
+連結
+Markdown 支援兩種形式的連結語法： \emph{行內}和\emph{參考}兩種形式。
+
+不管是哪一種，連結的文字都是用 {[}方括號{]} 來標記。
+
+要建立一個行內形式的連結，只要在方塊括號後面馬上接著括號並插入網址連結即可，如果你還想要加上連結的
+title 文字，只要在網址後面，用雙引號把 title 文字包起來即可，例如：
+
+\begin{verbatim}
+This is [an example](http://example.com/ "Title") inline link.
+
+[This link](http://example.net/) has no title attribute.
+\end{verbatim}
+會產生：
+
+\begin{verbatim}
+<p>This is <a href="http://example.com/" title="Title">
+an example</a> inline link.</p>
+
+<p><a href="http://example.net/">This link</a> has no
+title attribute.</p>
+\end{verbatim}
+如果你是要連結到同樣主機的資源，你可以使用相對路徑：
+
+\begin{verbatim}
+See my [About](/about/) page for details.   
+\end{verbatim}
+參考形式的連結使用另外一個方括號接在連結文字的括號後面，而在第二個方括號裡面要填入用以辨識連結的標籤：
+
+\begin{verbatim}
+This is [an example][id] reference-style link.
+\end{verbatim}
+你也可以選擇性地在兩個方括號中間加上空白：
+
+\begin{verbatim}
+This is [an example] [id] reference-style link.
+\end{verbatim}
+接著，在文件的任意處，你可以把這個標籤的連結內容定義出來：
+
+\begin{verbatim}
+[id]: http://example.com/  "Optional Title Here"
+\end{verbatim}
+連結定義的形式為：
+
+\begin{itemize}
+\item
+  方括號，裡面輸入連結的辨識用標籤
+\item
+  接著一個冒號
+\item
+  接著一個以上的空白或 tab
+\item
+  接著連結的網址
+\item
+  選擇性地接著 title 內容，可以用單引號、雙引號或是括弧包著
+\end{itemize}
+下面這三種連結的定義都是相同：
+
+\begin{verbatim}
+[foo]: http://example.com/  "Optional Title Here"
+[foo]: http://example.com/  'Optional Title Here'
+[foo]: http://example.com/  (Optional Title Here)
+\end{verbatim}
+\textbf{請注意：}有一個已知的問題是 Markdown.pl 1.0.1
+會忽略單引號包起來的連結 title。
+
+連結網址也可以用方括號包起來：
+
+\begin{verbatim}
+[id]: <http://example.com/>  "Optional Title Here"
+\end{verbatim}
+你也可以把 title
+屬性放到下一行，也可以加一些縮排，網址太長的話，這樣會比較好看：
+
+\begin{verbatim}
+[id]: http://example.com/longish/path/to/resource/here
+    "Optional Title Here"
+\end{verbatim}
+網址定義只有在產生連結的時候用到，並不會直接出現在文件之中。
+
+連結辨識標籤可以有字母、數字、空白和標點符號，但是並\emph{不}區分大小寫，因此下面兩個連結是一樣的：
+
+\begin{verbatim}
+[link text][a]
+[link text][A]
+\end{verbatim}
+\emph{預設的連結標籤}功能讓你可以省略指定連結標籤，這種情形下，連結標籤和連結文字會視為相同，要用預設連結標籤只要在連結文字後面加上一個空的方括號，如果你要讓
+``Google'' 連結到 google.com，你可以簡化成：
+
+\begin{verbatim}
+[Google][]
+\end{verbatim}
+然後定義連結內容：
+
+\begin{verbatim}
+[Google]: http://google.com/
+\end{verbatim}
+由於連結文字可能包含空白，所以這種簡化的標籤內也可以包含多個文字：
+
+\begin{verbatim}
+Visit [Daring Fireball][] for more information.
+\end{verbatim}
+然後接著定義連結：
+
+\begin{verbatim}
+[Daring Fireball]: http://daringfireball.net/
+\end{verbatim}
+連結的定義可以放在文件中的任何一個地方，我比較偏好直接放在連結出現段落的後面，你也可以把它放在文件最後面，就像是註解一樣。
+
+下面是一個參考式連結的範例：
+
+\begin{verbatim}
+I get 10 times more traffic from [Google] [1] than from
+[Yahoo] [2] or [MSN] [3].
+
+  [1]: http://google.com/        "Google"
+  [2]: http://search.yahoo.com/  "Yahoo Search"
+  [3]: http://search.msn.com/    "MSN Search"
+\end{verbatim}
+如果改成用連結名稱的方式寫：
+
+\begin{verbatim}
+I get 10 times more traffic from [Google][] than from
+[Yahoo][] or [MSN][].
+
+  [google]: http://google.com/        "Google"
+  [yahoo]:  http://search.yahoo.com/  "Yahoo Search"
+  [msn]:    http://search.msn.com/    "MSN Search"
+\end{verbatim}
+上面兩種寫法都會產生下面的 HTML。
+
+\begin{verbatim}
+<p>I get 10 times more traffic from <a href="http://google.com/"
+title="Google">Google</a> than from
+<a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a>
+or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>
+\end{verbatim}
+下面是用行內形式寫的同樣一段內容的 Markdown 文件，提供作為比較之用：
+
+\begin{verbatim}
+I get 10 times more traffic from [Google](http://google.com/ "Google")
+than from [Yahoo](http://search.yahoo.com/ "Yahoo Search") or
+[MSN](http://search.msn.com/ "MSN Search").
+\end{verbatim}
+參考式的連結其實重點不在於它比較好寫，而是它比較好讀，比較一下上面的範例，使用參考式的文章本身只有
+81 個字元，但是用行內形式的連結卻會增加到 176 個字元，如果是用純 HTML
+格式來寫，會有 234 個字元，在 HTML 格式中，標籤比文字還要多。
+
+使用 Markdown
+的參考式連結，可以讓文件更像是瀏覽器最後產生的結果，讓你可以把一些標記相關的資訊移到段落文字之外，你就可以增加連結而不讓文章的閱讀感覺被打斷。
+
+強調
+Markdown
+使用星號（\texttt{*}）和底線（\texttt{\_}）作為標記強調字詞的符號，被
+\texttt{*} 或 \texttt{\_} 包圍的字詞會被轉成用
+\texttt{\textless{}em\textgreater{}} 標籤包圍，用兩個 \texttt{*} 或
+\texttt{\_} 包起來的話，則會被轉成
+\texttt{\textless{}strong\textgreater{}}，例如：
+
+\begin{verbatim}
+*single asterisks*
+
+_single underscores_
+
+**double asterisks**
+
+__double underscores__
+\end{verbatim}
+會轉成：
+
+\begin{verbatim}
+<em>single asterisks</em>
+
+<em>single underscores</em>
+
+<strong>double asterisks</strong>
+
+<strong>double underscores</strong>
+\end{verbatim}
+你可以隨便用你喜歡的樣式，唯一的限制是，你用什麼符號開啟標籤，就要用什麼符號結束。
+
+強調也可以直接插在文字中間：
+
+\begin{verbatim}
+un*frigging*believable
+\end{verbatim}
+但是如果你的 \texttt{*} 和 \texttt{\_}
+兩邊都有空白的話，它們就只會被當成普通的符號。
+
+如果要在文字前後直接插入普通的星號或底線，你可以用反斜線：
+
+\begin{verbatim}
+\*this text is surrounded by literal asterisks\*
+\end{verbatim}
+程式碼
+如果要標記一小段行內程式碼，你可以用反引號把它包起來（\texttt{`}），例如：
+
+\begin{verbatim}
+Use the `printf()` function.
+\end{verbatim}
+會產生：
+
+\begin{verbatim}
+<p>Use the <code>printf()</code> function.</p>
+\end{verbatim}
+如果要在程式碼區段內插入反引號，你可以用多個反引號來開啟和結束程式碼區段：
+
+\begin{verbatim}
+``There is a literal backtick (`) here.``
+\end{verbatim}
+這段語法會產生：
+
+\begin{verbatim}
+<p><code>There is a literal backtick (`) here.</code></p>
+\end{verbatim}
+程式碼區段的起始和結束端都可以放入一個空白，起始端後面一個，結束端前面一個，這樣你就可以在區段的一開始就插入反引號：
+
+\begin{verbatim}
+A single backtick in a code span: `` ` ``
+
+A backtick-delimited string in a code span: `` `foo` ``
+\end{verbatim}
+會產生：
+
+\begin{verbatim}
+<p>A single backtick in a code span: <code>`</code></p>
+
+<p>A backtick-delimited string in a code span: <code>`foo`</code></p>
+\end{verbatim}
+在程式碼區段內，\texttt{\&} 和方括號都會被轉成 HTML
+實體，這樣會比較容易插入 HTML 原始碼，Markdown 會把下面這段：
+
+\begin{verbatim}
+Please don't use any `<blink>` tags.
+\end{verbatim}
+轉為：
+
+\begin{verbatim}
+<p>Please don't use any <code>&lt;blink&gt;</code> tags.</p>
+\end{verbatim}
+你也可以這樣寫：
+
+\begin{verbatim}
+`&#8212;` is the decimal-encoded equivalent of `&mdash;`.
+\end{verbatim}
+以產生：
+
+\begin{verbatim}
+<p><code>&amp;#8212;</code> is the decimal-encoded
+equivalent of <code>&amp;mdash;</code>.</p>
+\end{verbatim}
+圖片
+很明顯地，要在純文字應用中設計一個
+「自然」的語法來插入圖片是有一定難度的。
+
+Markdown 使用一種和連結很相似的語法來標記圖片，同樣也允許兩種樣式：
+\emph{行內}和\emph{參考}。
+
+行內圖片的語法看起來像是：
+
+\begin{verbatim}
+![Alt text](/path/to/img.jpg)
+
+![Alt text](/path/to/img.jpg "Optional title")
+\end{verbatim}
+詳細敘述如下：
+
+\begin{itemize}
+\item
+  一個驚嘆號 \texttt{!}
+\item
+  接著一個方括號，裡面放上圖片的替代文字
+\item
+  接著一個普通括號，裡面放上圖片的網址，最後還可以用引號包住並加上
+  選擇性的 `title' 文字。
+\end{itemize}
+參考式的圖片語法則長得像這樣：
+
+\begin{verbatim}
+![Alt text][id]
+\end{verbatim}
+「id」是圖片參考的名稱，圖片參考的定義方式則和連結參考一樣：
+
+\begin{verbatim}
+[id]: url/to/image  "Optional title attribute"
+\end{verbatim}
+到目前為止， Markdown
+還沒有辦法指定圖片的寬高，如果你需要的話，你可以使用普通的
+\texttt{\textless{}img\textgreater{}} 標籤。
+
+\begin{center}\rule{3in}{0.4pt}\end{center}
+
+其它
+自動連結
+Markdown
+支援比較簡短的自動連結形式來處理網址和電子郵件信箱，只要是用方括號包起來，
+Markdown 就會自動把它轉成連結，連結的文字就和連結位置一樣，例如：
+
+\begin{verbatim}
+<http://example.com/>
+\end{verbatim}
+Markdown 會轉為：
+
+\begin{verbatim}
+<a href="http://example.com/">http://example.com/</a>
+\end{verbatim}
+自動的郵件連結也很類似，只是 Markdown
+會先做一個編碼轉換的過程，把文字字元轉成 16 進位碼的 HTML
+實體，這樣的格式可以混淆一些不好的信箱地址收集機器人，例如：
+
+\begin{verbatim}
+<address@example.com>
+\end{verbatim}
+Markdown 會轉成：
+
+\begin{verbatim}
+<a href="&#x6D;&#x61;i&#x6C;&#x74;&#x6F;:&#x61;&#x64;&#x64;&#x72;&#x65;
+&#115;&#115;&#64;&#101;&#120;&#x61;&#109;&#x70;&#x6C;e&#x2E;&#99;&#111;
+&#109;">&#x61;&#x64;&#x64;&#x72;&#x65;&#115;&#115;&#64;&#101;&#120;&#x61;
+&#109;&#x70;&#x6C;e&#x2E;&#99;&#111;&#109;</a>
+\end{verbatim}
+在瀏覽器裡面，這段字串會變成一個可以點擊的「address@example.com」連結。
+
+（這種作法雖然可以混淆不少的機器人，但並無法全部擋下來，不過這樣也比什麼都不做好些。無論如何，公開你的信箱終究會引來廣告信件的。）
+
+跳脫字元
+Markdown
+可以利用反斜線來插入一些在語法中有其它意義的符號，例如：如果你想要用星號加在文字旁邊的方式來做出強調效果（但不用
+\texttt{\textless{}em\textgreater{}} 標籤），你可以在星號的前面加上反斜線：
+
+\begin{verbatim}
+\*literal asterisks\*
+\end{verbatim}
+Markdown 支援在下面這些符號前面加上反斜線來幫助插入普通的符號：
+
+\begin{verbatim}
+\   反斜線
+`   反引號
+*   星號
+_   底線
+{}  大括號
+[]  方括號
+()  括號
+#   井字號
++   加號
+-   減號
+.   英文句點
+!   驚嘆號
+\end{verbatim}
+感謝
+感謝 \href{https://twitter.com/\#!/leafy7382}{leafy7382}
+協助翻譯，\href{http://iamhlb.com/}{hlb}、\href{http://twitter.com/randylien}{Randylien}
+幫忙潤稿，\href{https://twitter.com/\#!/ethantw}{ethantw}
+的\href{http://ethantw.net/projects/han/}{漢字標準格式・CSS Reset}，
+\href{http://kidwm.net/}{WM} 回報文字錯誤。
